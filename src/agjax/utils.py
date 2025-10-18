@@ -1,6 +1,6 @@
 """Defines a utility functions for jax-autograd wrappers.
 
-Copyright (c) 2024 Martin F. Schubert
+Copyright (c) 2025 invrs.io LLC
 """
 
 from typing import Any, Callable, Sequence, Tuple
