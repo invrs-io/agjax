@@ -1,6 +1,6 @@
 """Defines a jax wrapper for autograd-differentiable functions.
 
-Copyright (c) 2024 Martin F. Schubert
+Copyright (c) 2025 invrs.io LLC
 """
 
 import functools
