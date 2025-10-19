@@ -7,17 +7,12 @@ import autograd
 import autograd.numpy as npa
 import jax
 import jax.numpy as jnp
-import jaxlib
 import numpy as onp
 from parameterized import parameterized
 
 from agjax import utils
 from agjax.experimental import wrapper
 
-if hasattr(jaxlib, "xla_extension"):
-    JaxError = jaxlib.xla_extension.XlaRuntimeError
-else:
-    JaxError = jaxlib._jax.XlaRuntimeError
 
 TEST_FNS_AND_ARGS = (
     (  # Basic scalar-valued function, real outputs.
@@ -79,7 +74,7 @@ class WrapperTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "Found out of bounds"):
             wrapped(1.0, 2.0)
-        with self.assertRaisesRegex(JaxError, "Found out of bounds"):
+        with self.assertRaisesRegex(jax.errors.JaxRuntimeError, "Found out of bounds"):
             jax.grad(wrapped)(1.0, 2.0)
 
     @parameterized.expand(([2], [-3]))
@@ -94,7 +89,7 @@ class WrapperTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "Found out of bounds"):
             wrapped(1.0, 2.0)
-        with self.assertRaisesRegex(JaxError, "Found out of bounds"):
+        with self.assertRaisesRegex(jax.errors.JaxRuntimeError, "Found out of bounds"):
             jax.grad(wrapped)(1.0, 2.0)
 
     @parameterized.expand(([(1, 1)], [(1, -1)]))
@@ -121,9 +116,13 @@ class WrapperTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "At least one differentiable output"):
             wrapped(1.0, 2.0)
-        with self.assertRaisesRegex(JaxError, "At least one differentiable output"):
+        with self.assertRaisesRegex(
+            jax.errors.JaxRuntimeError, "At least one differentiable output"
+        ):
             jax.grad(wrapped)(1.0, 2.0)
-        with self.assertRaisesRegex(JaxError, "At least one differentiable output"):
+        with self.assertRaisesRegex(
+            jax.errors.JaxRuntimeError, "At least one differentiable output"
+        ):
             jax.value_and_grad(wrapped)(1.0, 2.0)
 
     @parameterized.expand(TEST_FNS_AND_ARGS)
