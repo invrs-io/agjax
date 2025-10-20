@@ -1,12 +1,12 @@
 [project]
 
 name = "agjax"
-version = "v0.3.6"
+version = "v0.3.7"
 description = "A jax wrapper for autograd-differentiable functions."
 keywords = ["autograd", "jax", "python", "wrapper", "gradient"]
 readme = "README.md"
 requires-python = ">=3.7"
-license = {file = "LICENSE"}
+license = "MIT"
 
 authors = [
     {name = "Martin F. Schubert", email = "mfschubert@gmail.com"},
